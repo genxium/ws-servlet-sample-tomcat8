@@ -26,7 +26,6 @@ project.webAppDirName = "src/main/webapp"
 
 def slf4jVer = "1.7.25"
 def logbackVer = "1.2.3"
-def logbackLogStashAdapterVer = "4.11"
 
 def mockitoVersion = '1.10.+'
 def testNgVersion = '6.+'

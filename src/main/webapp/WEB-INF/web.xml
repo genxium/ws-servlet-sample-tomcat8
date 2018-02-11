@@ -15,6 +15,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+
+<!--
+Major references
+- JSR315 Section 11.3 "Listener Class Configuration".
+- JSR315 Chapter 14 "Deployment Descriptor".
+-->
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
@@ -27,4 +33,16 @@
   </description>
   <display-name>Websocket Sample</display-name>
 
+  <!-- One `listener` element should contain exactly one `listener-class` element -->
+  <listener>
+    <listener-class>
+      ws.sample.Boot
+    </listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>
+      ws.sample.BootAnother
+    </listener-class>
+  </listener>
 </web-app>

@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 public class Boot implements javax.servlet.ServletContextListener {
   
   private static final Logger logger = LoggerFactory.getLogger(Boot.class);
-  private DataSource mysqlConnDs = null;
+  private static DataSource mysqlConnDs = null;
   
   /**
    * The explicit constructor of `Boot` must be
@@ -93,7 +93,7 @@ public class Boot implements javax.servlet.ServletContextListener {
     logger.info("Context has been destroyed");
   }
   
-  private void initMySQLConnDs() {
+  private static void initMySQLConnDs() {
     try {
       /**
        * This JNDI resource named "jdbc/mysqltester" is defined in
@@ -113,7 +113,7 @@ public class Boot implements javax.servlet.ServletContextListener {
     }
   }
   
-  public DataSource getMysqlConnDs() {
+  public static DataSource getMysqlConnDs() {
     return mysqlConnDs;
   }
 }

@@ -34,6 +34,8 @@ def servletApiVersion = '2.5'
 def wsApiVersion = '1.1'
 def tomcatVersion = '8.0.24'
 
+def mysqlConnectorJVer = "8.0.8-dmr"
+
 dependencies {
     // Slf4j-api.
     compile group: "org.slf4j", name: "slf4j-api", version: "${slf4jVer}"
@@ -45,6 +47,9 @@ dependencies {
     // General java servlet-api dependencies.
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: "${servletApiVersion}"
     providedCompile group: 'javax.websocket', name: 'javax.websocket-api', version: "${wsApiVersion}"
+
+    // MySQL Connector/J driver
+    compile group: 'mysql', name: 'mysql-connector-java', version: mysqlConnectorJVer
 
     // Tomcat servlet api dependencies.
     providedCompile group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: "${tomcatVersion}"

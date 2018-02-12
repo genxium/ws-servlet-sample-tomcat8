@@ -1,0 +1,61 @@
+<Context>
+    <!-- What is JDBC? https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html -->
+
+    <!-- maxTotal: Maximum number of database connections in pool. Make sure you
+         configure your mysqld max_connections large enough to handle
+         all of your db connections. Set to -1 for no limit.
+         -->
+
+    <!-- maxIdle: Maximum number of idle database connections to retain in pool.
+         Set to -1 for no limit.  See also the DBCP documentation on this
+         and the minEvictableIdleTimeMillis configuration parameter.
+         -->
+
+    <!-- maxWaitMillis: Maximum time to wait for a database connection to become available
+         in ms, in this example 10 seconds. An Exception is thrown if
+         this timeout is exceeded.  Set to -1 to wait indefinitely.
+         -->
+
+    <!-- username and password: MySQL username and password for database connections  -->
+
+    <!-- driverClassName: Class name for the old mm.mysql JDBC driver is
+         org.gjt.mm.mysql.Driver - we recommend using Connector/J though.
+         Class name for the official MySQL Connector/J driver is com.mysql.jdbc.Driver.
+         -->
+
+    <!-- url: The JDBC connection url for connecting to your MySQL database. -->
+
+    <!--
+    These variables
+
+    ${mysql.host}
+    ${mysql.port}
+    ${mysql.dbname}
+    ${mysql.username}
+    ${mysql.password}
+
+    should come from
+
+    `CATALINA_OPTS`
+
+    defined in
+
+    `${catalina.base}/bin/setenv.sh`
+
+    , if using the preconfigured Tomcat8 container given by https://github.com/genxium/preconfigured-servlet-containers.
+    -->
+
+    <!--
+    According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+    -->
+    <Resource name="jdbc/mysqltester" auth="Container" type="javax.sql.DataSource"
+              maxActive="100"
+              maxTotal="100"
+              maxIdle="30"
+              maxWaitMillis="10000"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://${mysql.host}:${mysql.port}/${mysql.dbname}?useSSL=false"
+              username="${mysql.username}"
+              password="${mysql.password}"
+    />
+</Context>

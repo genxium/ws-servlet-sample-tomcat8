@@ -113,7 +113,7 @@ public class Boot implements javax.servlet.ServletContextListener {
     }
   }
   
-  private DataSource getMysqlConnDs() {
+  public DataSource getMysqlConnDs() {
     return mysqlConnDs;
   }
 }

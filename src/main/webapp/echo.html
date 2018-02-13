@@ -20,7 +20,7 @@
 </form>
 <script type="text/javascript">
   var warArchiveBareName = "ws-servlet-sample"; // From `<proj-root>/build.gradle`.
-  var wsEndpointName = "/echo"; // From `<proj-root>/src/main/java/ws/sample/endpoint/Echo.java`.
+  var wsEndpointName = "echo"; // From `<proj-root>/src/main/java/ws/sample/endpoint/Echo.java`.
   var webSocket = new WebSocket("ws://" + window.location.host + "/" + warArchiveBareName + "/" + wsEndpointName);
 
   var txtAreaEcho = document.getElementById("txtAreaEcho");

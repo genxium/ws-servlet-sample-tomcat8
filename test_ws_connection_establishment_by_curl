@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then 
+echo "Usage: $0 <token>"
+exit 1
+fi
+
+httpProto="http"
+hostname="localhost"
+port=8080
+host="$hostname:$port"
+path="/ws-servlet-sample/echo"
+token=$1
+
+url="$httpProto://$host$path?token=$token"
+
+# Copied from Firefox `Network` panel inspection.
+curl -i -v $url -H "Host: $host" -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0) Gecko/20100101 Firefox/58.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Sec-WebSocket-Version: 13' -H "Origin: $httpProto://$host" -H 'Sec-WebSocket-Extensions: permessage-deflate' -H 'Sec-WebSocket-Key: xTYssNG5NiK7bzql5wZRtQ==' -H 'Connection: keep-alive, Upgrade' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Upgrade: websocket'

@@ -1,16 +1,16 @@
 package ws.sample.endpoint;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-import javax.websocket.server.ServerEndpoint;
 import javax.websocket.Session;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/echo")
 public class Echo {
@@ -34,7 +34,7 @@ public class Echo {
   
   @OnMessage
   public void onMessage(String message, Session session) {
-    logger.info("Message from {}: {}", session.getId() , message);
+    logger.info("Message from {}: {}", session.getId(), message);
     try {
       session.getBasicRemote().sendText(message);
     } catch (IOException ex) {

@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -27,6 +27,10 @@ public class Boot implements javax.servlet.ServletContextListener {
    *
    * for being a `ServletContextListener` registered
    * in <proj-root>/src/main/webapp/WEB-INF/web.xml.
+   *
+   * Moreover, being a subclass of `ServletContextListener`, this class SHOULDN'T follow
+   * the "singleton pattern" or be instantiated explicitly by any other means,
+   * because it's ONLY supposed to be instantiated implicitly by the "apache-tomcat-* container".
    */
   public Boot() {
   }
@@ -34,15 +38,15 @@ public class Boot implements javax.servlet.ServletContextListener {
   @Override
   public void contextInitialized(ServletContextEvent sce) {
     logger.info("Context has been initialized");
-  
+    
     initMySQLConnDs();
-  
+    
     // Merely testing whether `mysqlConnDs` is null.
     /**
      * Uses the following preconfigured MySQL schema & data.
      *
      * user@shell> mysql -uroot test
- 
+     
      -------------------------------------------
      mysql> show tables;
      +----------------+
@@ -51,7 +55,7 @@ public class Boot implements javax.servlet.ServletContextListener {
      | player         |
      +----------------+
      1 row in set (0.00 sec)
- 
+     
      mysql> desc player;
      +-------+--------------+------+-----+---------+----------------+
      | Field | Type         | Null | Key | Default | Extra          |
@@ -60,7 +64,7 @@ public class Boot implements javax.servlet.ServletContextListener {
      | name  | varchar(255) | YES  |     | NULL    |                |
      +-------+--------------+------+-----+---------+----------------+
      2 rows in set (0.04 sec)
- 
+     
      mysql> select * from player;
      +----+-------+
      | id | name  |
@@ -73,15 +77,15 @@ public class Boot implements javax.servlet.ServletContextListener {
      */
     try (final Connection mysqlConn = getMysqlConnDs().getConnection()) {
       mysqlConn.setAutoCommit(true);
-    
-      try (final Statement stmt = mysqlConn.createStatement()) {
-        final String sql = "SELECT id, name FROM player";
-        try (final ResultSet rs = stmt.executeQuery(sql)) {
-          while(rs.next()){
+      
+      final String sql = "SELECT id, name FROM player";
+      try (final PreparedStatement stmt = mysqlConn.prepareStatement(sql)) {
+        try (final ResultSet rs = stmt.executeQuery()) {
+          while (rs.next()) {
             logger.info("ID: {}, name: {}", rs.getInt("id"), rs.getString("name"));
           }
         }
-      
+        
       }
     } catch (SQLException ex) {
       logger.error(ex.getMessage(), ex);

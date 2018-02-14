@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ $# -ne 1 ]; then 
-echo "Usage: $0 <token>"
-exit 1
+  echo "Usage: $0 <token>"
+  exit 1
 fi
 
 httpProto="http"

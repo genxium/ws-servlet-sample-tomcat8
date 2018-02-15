@@ -25,4 +25,4 @@ user@proj-root> scp ./build/libs/ws-servlet-sample.war /path/to/catalina/base/we
 user@${catalina.base}> sh bin/catalina.sh [run | start]
 ```
 
-Visit `http://${whatever-host-configured}:8080/ws-servlet-sample/echo.html`.
+Visit `http://${whatever-host-configured}:8080/ws-servlet-sample/echo.html?token=aaaaaaaaa`.

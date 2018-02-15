@@ -19,9 +19,9 @@
     </fieldset>
 </form>
 <script type="text/javascript">
-  var warArchiveBareName = "ws-servlet-sample"; // From `<proj-root>/build.gradle`.
-  var wsEndpointName = "echo"; // From `<proj-root>/src/main/java/ws/sample/endpoint/Echo.java`.
-  var webSocket = new WebSocket("ws://" + window.location.host + "/" + warArchiveBareName + "/" + wsEndpointName);
+  var contextPath = "/ws-servlet-sample"; // For Tomcat8 implementation of JSR315 Section 3.5 "Request Path Elements", this is by default the `warArchiveBareName` from `<proj-root>/build.gradle`.
+  var wsEndpointPath = "/echo"; // From `<proj-root>/src/main/java/ws/sample/endpoint/Echo.java`.
+  var webSocket = new WebSocket("ws://" + window.location.host + contextPath + wsEndpointPath + window.location.search);
 
   var txtAreaEcho = document.getElementById("txtAreaEcho");
 
@@ -36,7 +36,7 @@
     txtAreaEcho.value += "Server : " + msgEvent.data + "\n";
   };
   webSocket.onclose = function(msgEvent) {
-    txtAreaEcho.value += "Disconnect ... \n";
+    txtAreaEcho.value += "Disconnected ... \n";
   };
   webSocket.onerror = function(msgEvent) {
     txtAreaEcho.value += "Error ... \n";

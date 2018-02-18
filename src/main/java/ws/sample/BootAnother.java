@@ -15,7 +15,8 @@ import java.util.List;
 import javax.servlet.ServletContextEvent;
 
 import ws.sample.model.Player;
-import ws.sample.mybatismapper.PlayerMapper;
+import ws.sample.mybatismapper.JustAMapper;
+import ws.sample.mybatisresulthandler.PlayerPrintingHandler;
 
 public class BootAnother implements javax.servlet.ServletContextListener {
   
@@ -49,22 +50,25 @@ public class BootAnother implements javax.servlet.ServletContextListener {
   
     // Merely testing whether `sqlSessionFactory` is valid.
     try (final SqlSession s = sqlSessionFactory.openSession(true)) {
-      final PlayerMapper playerMapper = s.getMapper(ws.sample.mybatismapper.PlayerMapper.class);
+      final JustAMapper justAMapper = s.getMapper(JustAMapper.class);
       
       final long targetPlayerId = 1;
-      final Player selectedPlayer = playerMapper.selectPlayer(targetPlayerId);
+      final Player selectedPlayer = justAMapper.selectPlayer(targetPlayerId);
       
       if (null != selectedPlayer) {
         logger.info("The `name` of `selectedPlayer` with `id` {} is {}.", targetPlayerId, selectedPlayer.getName());
       }
       
-      final List<Player> firstTwoPlayers = playerMapper.selectPlayers(new RowBounds(0, 2));
+      final List<Player> firstTwoPlayers = justAMapper.selectPlayers(new RowBounds(0, 2));
       if (null != firstTwoPlayers) {
-        logger.info("The first two players are as follows.\n");
+        logger.info("The first two players are as follows.");
         for (final Player p : firstTwoPlayers) {
           logger.info("\nid: {}\nname: {}\ndisplayName: {}\n", p.getId(), p.getName(), p.getDisplayName());
         }
       }
+      
+      logger.info("Traversing The first two players by iterable.");
+      justAMapper.iterateOverPlayers(PlayerPrintingHandler.getInstance());
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
     }

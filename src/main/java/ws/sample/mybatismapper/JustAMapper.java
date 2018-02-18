@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
@@ -27,7 +28,7 @@ import ws.sample.mybatissqlbuilder.JustABuilder;
  * become accessible from a "SqlSession" opened by that "SqlSessionFactory".
  *
  */
-public interface PlayerMapper {
+public interface JustAMapper {
   /*
   @Select("SELECT * FROM player WHERE id = #{id}")
   Player selectPlayer(long id);
@@ -48,4 +49,11 @@ public interface PlayerMapper {
   @ResultMap("awkwardNamedResultsForPlayerClass")
   @SelectProvider(type = JustABuilder.class, method = "batchPlayer")
   List<Player> selectPlayers(final RowBounds offsetAndMaxCount);
+  
+  /**
+   * Use a "forward-only iterable of query results" For handling predictable large amount of results, e.g. when traversing the whole table during a cronjob.
+   */
+  @ResultMap("awkwardNamedResultsForPlayerClass")
+  @SelectProvider(type = JustABuilder.class, method = "batchPlayer")
+  void iterateOverPlayers(final ResultHandler rh);
 }

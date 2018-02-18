@@ -36,6 +36,8 @@ def tomcatVersion = '8.0.24'
 
 def mysqlConnectorJVer = "8.0.8-dmr"
 
+def mybatisVer = "3.4.5"
+
 dependencies {
     // Slf4j-api.
     compile group: "org.slf4j", name: "slf4j-api", version: "${slf4jVer}"
@@ -50,6 +52,9 @@ dependencies {
 
     // MySQL Connector/J driver
     compile group: 'mysql', name: 'mysql-connector-java', version: mysqlConnectorJVer
+
+    // MyBatis ORM lib.
+    compile group: 'org.mybatis', name: 'mybatis', version: mybatisVer
 
     // Tomcat servlet api dependencies.
     providedCompile group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: "${tomcatVersion}"

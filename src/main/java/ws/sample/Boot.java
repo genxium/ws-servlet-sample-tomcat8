@@ -41,7 +41,7 @@ public class Boot implements javax.servlet.ServletContextListener {
     
     initMySQLConnDs();
     
-    // Merely testing whether `mysqlConnDs` is null.
+    // Merely testing whether `mysqlConnDs` is valid.
     /**
      * Uses the following preconfigured MySQL schema & data.
      *
@@ -110,7 +110,7 @@ public class Boot implements javax.servlet.ServletContextListener {
        * If resource "jdbc/mysqltester" is not properly configured, e.g. wrong connection credentials, then `mysqlConnDs` would be null.
        */
       final Context initCtx = new InitialContext();
-      Context envCtx = (Context) initCtx.lookup("java:comp/env");
+      final Context envCtx = (Context) initCtx.lookup("java:comp/env");
       mysqlConnDs = (DataSource) envCtx.lookup("jdbc/mysqltester");
     } catch (NamingException ex) {
       logger.error(ex.getMessage(), ex);

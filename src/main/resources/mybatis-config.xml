@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="JNDI">
+                <!-- The JNDI context named "java:comp/env" is preserved context for subcontext "/jdbc" introduced in https://docs.oracle.com/cd/E19747-01/819-0079/dgjndi.html. -->
+                <!-- The JNDI resource named "java:comp/env" and "jdbc/mysqltester" respectively, are defined in "<proj-root>/src/main/webapp/META-INF/context.xml". -->
+                <property name="initial_context" value="java:comp/env" />
+                <property name="data_source" value="jdbc/mysqltester"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- Register all interfaces in a package as mappers. Reference http://www.mybatis.org/mybatis-3/configuration.html#mappers. -->
+    <!-- Package search paths are given by `sourceSets.main.java.srcDir[s]` defined in `<proj-root>/build.gradle`. -->
+    <mappers>
+        <package name="ws.sample.mybatismapper"/>
+    </mappers>
+</configuration>

@@ -1,6 +1,7 @@
 package ws.sample;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.servlet.ServletContextEvent;
 
@@ -54,6 +56,14 @@ public class BootAnother implements javax.servlet.ServletContextListener {
       
       if (null != selectedPlayer) {
         logger.info("The `name` of `selectedPlayer` with `id` {} is {}.", targetPlayerId, selectedPlayer.getName());
+      }
+      
+      final List<Player> firstTwoPlayers = playerMapper.selectPlayers(new RowBounds(0, 2));
+      if (null != firstTwoPlayers) {
+        logger.info("The first two players are as follows.\n");
+        for (final Player p : firstTwoPlayers) {
+          logger.info("\nid: {}\nname: {}\ndisplayName: {}\n", p.getId(), p.getName(), p.getDisplayName());
+        }
       }
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

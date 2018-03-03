@@ -21,10 +21,10 @@ public class PlayerPrintingHandler implements ResultHandler<Player> {
   @Override
   public synchronized void handleResult(ResultContext<? extends Player> resultContext) {
     if (resultContext.isStopped()) return;
-  
+    
     final Player p = resultContext.getResultObject();
     logger.info("\nid: {}\nname: {}\ndisplayName: {}\nresultCount: {}\n", p.getId(), p.getName(), p.getDisplayName(), resultContext.getResultCount());
-  
+    
     if (2 <= resultContext.getResultCount()) {
       resultContext.stop();
     }

@@ -41,13 +41,12 @@ public class BootAnother implements javax.servlet.ServletContextListener {
   }
   
   
-  
   @Override
   public void contextInitialized(ServletContextEvent sce) {
     logger.info("Context has been initialized");
-  
+    
     initSqlSessionFactory();
-  
+    
     // Merely testing whether `sqlSessionFactory` is valid.
     try (final SqlSession s = sqlSessionFactory.openSession(true)) {
       final JustAMapper justAMapper = s.getMapper(JustAMapper.class);
@@ -63,6 +62,14 @@ public class BootAnother implements javax.servlet.ServletContextListener {
       if (null != firstTwoPlayers) {
         logger.info("The first two players are as follows.");
         for (final Player p : firstTwoPlayers) {
+          logger.info("\nid: {}\nname: {}\ndisplayName: {}\n", p.getId(), p.getName(), p.getDisplayName());
+        }
+      }
+      
+      final List<Player> lastTwoPlayers = justAMapper.selectPlayersPhysical(1, 2);
+      if (null != lastTwoPlayers) {
+        logger.info("The last two players are as follows.");
+        for (final Player p : lastTwoPlayers) {
           logger.info("\nid: {}\nname: {}\ndisplayName: {}\n", p.getId(), p.getName(), p.getDisplayName());
         }
       }
@@ -85,13 +92,13 @@ public class BootAnother implements javax.servlet.ServletContextListener {
        * Will be using the "default" of "environments", i.e. "development" in this case.
        * See source of "org.apache.ibatis.builder.xml.XMLConfigBuilder" for details.
        */
-    
+      
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(in);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
     }
   }
-    
+  
   public static SqlSessionFactory getSqlSessionFactory() {
     return sqlSessionFactory;
   }

@@ -26,7 +26,6 @@ import ws.sample.mybatissqlbuilder.JustABuilder;
  * A "MyBatis mapper" should be registered in the configs used to create the "SqlSessionFactory",
  * e.g. "<proj-root>/src/main/resources/mybatis-config.xml" in the current repository, so as to
  * become accessible from a "SqlSession" opened by that "SqlSessionFactory".
- *
  */
 public interface JustAMapper {
   /*
@@ -34,7 +33,7 @@ public interface JustAMapper {
   Player selectPlayer(long id);
   */
   
-  @Results(id="awkwardNamedResultsForPlayerClass", value = {
+  @Results(id = "awkwardNamedResultsForPlayerClass", value = {
       @Result(property = "id", column = "id", id = true),
       @Result(property = "name", column = "name"),
       @Result(property = "displayName", column = "name")
@@ -46,9 +45,19 @@ public interface JustAMapper {
    * A `@Results(id="foo", value = ...)` annotation can be reused later by
    * `@ResultMap("foo")`.
    */
+  /**
+   * Making use of the "physical pagination" provided by JDBC.
+   */
+  @ResultMap("awkwardNamedResultsForPlayerClass")
+  @SelectProvider(type = JustABuilder.class, method = "batchPlayerPhysical")
+  List<Player> selectPlayersPhysical(@Param("offset") final int offset, @Param("count") final int count);
+  
+  /**
+   * Making use of the "logical pagination" provided by MyBatis3.
+   */
   @ResultMap("awkwardNamedResultsForPlayerClass")
   @SelectProvider(type = JustABuilder.class, method = "batchPlayer")
-  List<Player> selectPlayers(final RowBounds offsetAndMaxCount);
+  List<Player> selectPlayers(final RowBounds rowBounds);
   
   /**
    * Use a "forward-only iterable of query results" For handling predictable large amount of results, e.g. when traversing the whole table during a cronjob.

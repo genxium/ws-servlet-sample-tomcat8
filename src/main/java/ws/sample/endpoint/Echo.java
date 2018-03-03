@@ -6,9 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -30,6 +28,7 @@ public class Echo {
   private static final Logger logger = LoggerFactory.getLogger(Echo.class);
   
   private static final Map<String, String> tokenToUidDict = new HashMap<>();
+
   static {
     tokenToUidDict.put("aaaaaaaaa", "1");
     tokenToUidDict.put("bbbbbbbbb", "2");
@@ -47,12 +46,12 @@ public class Echo {
   public void onOpen(Session session) throws IOException {
     final String queryStr = session.getQueryString();
     logger.info("Session.id == {} has opened a connection with queryStr: {}.", session.getId(), queryStr);
-  
+
     final Map<String, String[]> queryParamDict = new HashMap<>();
     RequestUtil.parseParameters(queryParamDict, queryStr, Charset.forName("UTF-8").name());
-  
+
     final String missingTokenHint = "Missing required param \"token\".";
-  
+
     final String TOKEN = "token";
     if (queryParamDict.containsKey(TOKEN)) {
       final String[] tokens = queryParamDict.get(TOKEN);
@@ -67,7 +66,7 @@ public class Echo {
               throw new InterruptedException();
             }
             logger.debug("Connection Established for uid == {}.", uid);
-          
+
             session.getBasicRemote().sendText("Connection established for your uid == " + uid);
           } catch (InterruptedException ex) {
             logger.error(ex.getMessage(), ex);

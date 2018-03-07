@@ -11,7 +11,7 @@
         <result property="name" column="name"/>
         <result property="displayName" column="name"/>
     </resultMap>
-    <select id="selectPlayer" resultMap="awkwardNamedResultsForPlayerClass">
-        SELECT * FROM player WHERE id = #{id}
+    <select id="selectPlayer" resultMap="awkwardNamedResultsForPlayerClass" parameterType="map">
+        SELECT * FROM player WHERE id = #{id} AND name = #{name}
     </select>
 </mapper>

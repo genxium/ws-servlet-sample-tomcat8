@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContextEvent;
 
@@ -58,10 +60,13 @@ public class BootAnother implements javax.servlet.ServletContextListener {
         logger.info("The `name` of `selectedPlayer` with `id` {} is {}.", targetPlayerId, selectedPlayer.getName());
       }
       
-      final long anotherTargetPlayerId = 2;
-      final Player anotherSelectedPlayer = s.selectOne("ws.sample.mybatisxmlmapper.JustAnotherMapper.selectPlayer", anotherTargetPlayerId);
-      if (null != anotherSelectedPlayer) {
-        logger.info("The `name` of `anotherSelectedPlayer` with `id` {} is {}.", anotherTargetPlayerId, anotherSelectedPlayer.getName());
+      final Map<String, String> anotherTargetPlayerParamMap = new HashMap<>();
+        anotherTargetPlayerParamMap.put("id", "2");
+        anotherTargetPlayerParamMap.put("name", "cat");
+      
+      final Player anotherExactMatchSelectedPlayer = s.selectOne("ws.sample.mybatisxmlmapper.JustAnotherMapper.selectPlayer", anotherTargetPlayerParamMap);
+      if (null != anotherExactMatchSelectedPlayer) {
+        logger.info("The `name` of `anotherExactMatchSelectedPlayer` with `id` {} is {}.", anotherExactMatchSelectedPlayer.getId(), anotherExactMatchSelectedPlayer.getName());
       }
       
       final List<Player> firstTwoPlayers = justAMapper.selectPlayers(new RowBounds(0, 2));

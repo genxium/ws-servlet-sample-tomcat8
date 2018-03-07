@@ -39,7 +39,7 @@ public interface JustAMapper {
       @Result(property = "displayName", column = "name")
   })
   @SelectProvider(type = JustABuilder.class, method = "singlePlayer")
-  Player selectPlayer(@Param("id") long id);
+  Player selectPlayer(@Param("id") final long id);
   
   /**
    * A `@Results(id="foo", value = ...)` annotation can be reused later by

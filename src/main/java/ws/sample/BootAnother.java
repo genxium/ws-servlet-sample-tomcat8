@@ -58,6 +58,12 @@ public class BootAnother implements javax.servlet.ServletContextListener {
         logger.info("The `name` of `selectedPlayer` with `id` {} is {}.", targetPlayerId, selectedPlayer.getName());
       }
       
+      final long anotherTargetPlayerId = 2;
+      final Player anotherSelectedPlayer = s.selectOne("ws.sample.mybatisxmlmapper.JustAnotherMapper.selectPlayer", anotherTargetPlayerId);
+      if (null != anotherSelectedPlayer) {
+        logger.info("The `name` of `anotherSelectedPlayer` with `id` {} is {}.", anotherTargetPlayerId, anotherSelectedPlayer.getName());
+      }
+      
       final List<Player> firstTwoPlayers = justAMapper.selectPlayers(new RowBounds(0, 2));
       if (null != firstTwoPlayers) {
         logger.info("The first two players are as follows.");

@@ -18,6 +18,12 @@
     <!-- Register all interfaces in a package as mappers. Reference http://www.mybatis.org/mybatis-3/configuration.html#mappers. -->
     <!-- Package search paths are given by `sourceSets.main.java.srcDir[s]` defined in `<proj-root>/build.gradle`. -->
     <mappers>
-        <package name="ws.sample.mybatismapper"/>
+        <!--
+            According to "http://mybatis.org/dtd/mybatis-3-config.dtd", the order of elements under "<mappers />" must be
+            - "<mapper /> ... <mapper /> <package /> ... <package />",
+            - INSTEAD OF "<package /> ... <package /> <mapper /> ... <mapper />".
+        -->
+        <mapper resource="mybatisxmlmapper/JustAnotherMapper.xml" />
+        <package name="ws.sample.mybatismapper" />
     </mappers>
 </configuration>
